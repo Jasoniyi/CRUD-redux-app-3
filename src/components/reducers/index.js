@@ -18,16 +18,17 @@ const MainReducer = (state = INITIAL_STUDENTS, action) => {
       return state.filter(student => student.id !== action.id);
 
     case UPDATE_STUDENT:
-      let stateCopy = state.map(student => {
-        // const { id, name, grade, school } = action.payload;
+      return state.map(student => {
         if (student.id === action.id) {
-          student.name = action.name;
-          student.grade = action.grade;
-          student.school = action.school;
+          return {
+            name: action.name,
+            grade: action.grade,
+            school: action.school
+          };
         }
         return student;
       });
-      return stateCopy;
+
     default:
       return state;
   }

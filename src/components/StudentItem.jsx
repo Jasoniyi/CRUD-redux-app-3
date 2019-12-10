@@ -5,12 +5,21 @@ import { bindActionCreators } from "redux";
 
 class StudentItem extends Component {
   state = {
-    isEdit: false
+    isEdit: false,
+    toBeSaved: this.props.student
   };
+
+  handleChange = field => event =>
+    this.setState({
+      toBeSaved: {
+        ...this.state.toBeSaved,
+        [field]: event.target.value
+      }
+    });
 
   onEdit = () => {
     this.setState({
-      isEdit: !false
+      isEdit: !this.state.isEdit
     });
   };
   render() {
@@ -21,20 +30,17 @@ class StudentItem extends Component {
         {this.state.isEdit ? (
           <tr className="bg-warning" key={this.props.index}>
             <td>
-              <input
-                ref={nameInput => (this.nameInput = nameInput)}
-                defaultValue={name}
-              />
+              <input onChange={this.handleChange("name")} defaultValue={name} />
             </td>
             <td>
               <input
                 defaultValue={grade}
-                ref={gradeInput => (this.gradeInput = gradeInput)}
+                onChange={this.handleChange("grade")}
               />
             </td>
             <td>
               <input
-                ref={schoolInput => (this.schoolInput = schoolInput)}
+                onChange={this.handleChange("school")}
                 defaultValue={school}
               />
             </td>
@@ -44,11 +50,11 @@ class StudentItem extends Component {
                 onClick={() => {
                   this.props.updateStudent(
                     id,
-                    this.nameInput.value,
-                    this.gradeInput.value,
-                    this.schoolInput.value
+                    this.state.toBeSaved.name,
+                    this.state.toBeSaved.grade,
+                    this.state.toBeSaved.school
                   );
-                  //   console.log(id, this.nameInput.value);
+                  this.onEdit();
                 }}
               ></i>
             </td>

@@ -19,6 +19,7 @@ export const deleteStudent = id => ({
 export const updateStudent = (id, name, grade, school) => {
   return {
     type: UPDATE_STUDENT,
+    id,
     name,
     grade,
     school
